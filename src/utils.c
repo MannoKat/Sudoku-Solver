@@ -237,5 +237,5 @@ int are_values_in_same_cells(Cell **p_cells, int value1, int value2) {
         }
     }
 
-    return cell_count == 2; // Check if both values occur in exactly 2 cells
+    return cell_count == 2; 
 }

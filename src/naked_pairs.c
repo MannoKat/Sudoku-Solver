@@ -94,14 +94,13 @@ int naked_pairs(SudokuBoard *p_board) {
             
                 if (current_cell_row != naked_pair_cell1 && current_cell_row != naked_pair_cell2) {
                     // Check if the cell has the naked pair values
-                    if (is_candidate(current_cell_row, value1) || is_candidate(current_cell_row, value2)) {
-                        if (is_candidate(current_cell_row, value1)) {
-                            unset_candidate(current_cell_row, value1);
-                        }
-                        if (is_candidate(current_cell_row, value2)) {
-                            unset_candidate(current_cell_row, value2);
-                        }
+                    if (is_candidate(current_cell_row, value1)) {
+                        unset_candidate(current_cell_row, value1);
                     }
+                    if (is_candidate(current_cell_row, value2)) {
+                        unset_candidate(current_cell_row, value2);
+                    }
+                    
                 }
             }
         }
@@ -114,14 +113,11 @@ int naked_pairs(SudokuBoard *p_board) {
                         
                         if (current_cell_col != naked_pair_cell1 && current_cell_col != naked_pair_cell2) {
                             // Check if the cell has the naked pair values
-                            if (is_candidate(current_cell_col, value1) || is_candidate(current_cell_col, value2)) {
-
-                                if (is_candidate(current_cell_col, value1)) {
-                                    unset_candidate(current_cell_col, value1);
-                                }
-                                if (is_candidate(current_cell_col, value2)) {
-                                    unset_candidate(current_cell_col, value2);
-                                }
+                            if (is_candidate(current_cell_col, value1)) {
+                                unset_candidate(current_cell_col, value1);
+                            }
+                            if (is_candidate(current_cell_col, value2)) {
+                                unset_candidate(current_cell_col, value2);
                             }
                         }
                     }  
@@ -136,14 +132,11 @@ int naked_pairs(SudokuBoard *p_board) {
                 
                 if (current_cell_box != naked_pair_cell1 && current_cell_box != naked_pair_cell2) {
                     // Check if the cell has the naked pair values
-                    if (is_candidate(current_cell_box, value1) || is_candidate(current_cell_box, value2)) {
-
-                            if (is_candidate(current_cell_box, value1)) {
-                                unset_candidate(current_cell_box, value1);
-                            }
-                            if (is_candidate(current_cell_box, value2)) {
-                                unset_candidate(current_cell_box, value2);
-                            }
+                    if (is_candidate(current_cell_box, value1)) {
+                        unset_candidate(current_cell_box, value1);
+                    }
+                    if (is_candidate(current_cell_box, value2)) {
+                        unset_candidate(current_cell_box, value2);
                     }
                 }
             }  

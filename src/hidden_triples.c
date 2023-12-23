@@ -1,6 +1,4 @@
 #include "hidden_triples.h"
-
-#define MAX_CELLS 100
 // Implement other necessary functions and structures here
 
 int find_hidden_triples_values(Cell **p_cells, int *hidden_triples_values) {
@@ -19,7 +17,7 @@ int find_hidden_triples_values(Cell **p_cells, int *hidden_triples_values) {
         }
     }
     for (int i = 0; i < BOARD_SIZE; ++i) {
-        if (the_array_of_hidden_triples_values[i] == 2||the_array_of_hidden_triples_values[i] == 3) {
+        if (the_array_of_hidden_triples_values[i] >= 2||the_array_of_hidden_triples_values[i] <= 3) {
             hidden_triples_values[triple_candidates++] = i + 1;
         }
     }
@@ -27,35 +25,43 @@ int find_hidden_triples_values(Cell **p_cells, int *hidden_triples_values) {
     return triple_candidates;
 }
 
+int are_values_in_distinct_cells(Cell **p_cells, int value1, int value2, int value3,int num_triples) {
+    int count = 0;
+
+    // Check each cell for the presence of the values
+    for (int i = 0; i < num_triples; ++i) {
+        if (is_candidate(p_cells[i], value1) || is_candidate(p_cells[i], value2) || is_candidate(p_cells[i], value3)) {
+            count++;
+        }
+    }
+
+    // If each value appears in exactly one cell, return true; otherwise, return false
+    return (count == 3);
+}
+
 void find_hidden_triples(Cell **p_cells, HiddenTriple *p_hidden_triples, int *p_counter) {
     int hidden_triples_values[BOARD_SIZE];
     int num_triples = find_hidden_triples_values(p_cells, hidden_triples_values);
 
-
-    // Check if at least one value is present in at least two of the three cells
     for (int i = 0; i < num_triples - 2; ++i) {
         for (int k = i + 1; k < num_triples - 1; ++k) {
             for (int l = k + 1; l < num_triples; ++l) {
-                // Check if each value is in at least two of the three cells
-                if ((are_values_in_same_cells(p_cells, hidden_triples_values[i], hidden_triples_values[k]) &&
-                    are_values_in_same_cells(p_cells, hidden_triples_values[i], hidden_triples_values[l]) &&
-                    are_values_in_same_cells(p_cells, hidden_triples_values[k], hidden_triples_values[l]))
-                    // Check if at least one value is common among all three cells
-                    ) {
+                // Check if 1 of the 3 values is in at least 2 of the 3 cells
+                int count = 0;
+                count += are_values_in_same_cells(p_cells, hidden_triples_values[i], hidden_triples_values[k]);
+                count += are_values_in_same_cells(p_cells, hidden_triples_values[i], hidden_triples_values[l]);
+                count += are_values_in_same_cells(p_cells, hidden_triples_values[k], hidden_triples_values[l]);
 
+                // Check if each value appears in at least two distinct cells
+                if (count >= 2 && are_values_in_distinct_cells(p_cells, hidden_triples_values[i], hidden_triples_values[k], hidden_triples_values[l],num_triples)) {
                     for (int j = 0; j < BOARD_SIZE - 2; ++j) {
                         for (int h = j + 1; h < BOARD_SIZE - 1; ++h) {
                             for (int g = h + 1; g < BOARD_SIZE; ++g) {
                                 // Check if values are candidates in at least 2 per 3 of the cells
-                                if ((is_candidate(p_cells[j], hidden_triples_values[i]) &&
-                                     is_candidate(p_cells[j], hidden_triples_values[k]) &&
-                                     is_candidate(p_cells[j], hidden_triples_values[l])) ||
-                                    (is_candidate(p_cells[g], hidden_triples_values[i]) &&
-                                     is_candidate(p_cells[g], hidden_triples_values[k]) &&
-                                     is_candidate(p_cells[g], hidden_triples_values[l])) ||
-                                    (is_candidate(p_cells[h], hidden_triples_values[i]) &&
-                                     is_candidate(p_cells[h], hidden_triples_values[k]) &&
-                                     is_candidate(p_cells[h], hidden_triples_values[l]))) {
+                                if ((is_candidate(p_cells[j], hidden_triples_values[i]) || is_candidate(p_cells[j], hidden_triples_values[k]) || is_candidate(p_cells[j], hidden_triples_values[l])) &&
+                                    (is_candidate(p_cells[h], hidden_triples_values[i]) || is_candidate(p_cells[h], hidden_triples_values[k]) || is_candidate(p_cells[h], hidden_triples_values[l])) &&
+                                    (is_candidate(p_cells[g], hidden_triples_values[i]) || is_candidate(p_cells[g], hidden_triples_values[k]) || is_candidate(p_cells[g], hidden_triples_values[l]))) {
+
                                     HiddenTriple hidden_triple_obj;
                                     hidden_triple_obj.value1 = hidden_triples_values[i];
                                     hidden_triple_obj.value2 = hidden_triples_values[k];
@@ -76,7 +82,6 @@ void find_hidden_triples(Cell **p_cells, HiddenTriple *p_hidden_triples, int *p_
         }
     }
 }
-
 
 int overlaps_hidden_triples(HiddenTriple *p_hidden_triples, int counter) {
     int overlap = counter;
@@ -117,12 +122,9 @@ int overlaps_hidden_triples(HiddenTriple *p_hidden_triples, int counter) {
             }
         }
         free(candidates3);
-       
 
         overlap -= not_overlap;
-
     }
-
     return overlap;
 }
 

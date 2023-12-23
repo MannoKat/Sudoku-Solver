@@ -38,7 +38,7 @@
     "test005": {
         "description": "Naked triples",
         "board_input": "0922g13482940h4014052i12410qg18022181i81413k0q1cg0221c41110g8021020509g0210a0ag1040h401081g00581081140200h038i4q0e0kco8c11g1209ggg1403og2108844190k82114s89c03840h",
-        "method": "naked_pairs",
+        "method": "naked_triples",
         "output": {
             "num_detects": 2,
             "boards": "0922g13482940h4014052i12410qg18022181i81413k0q1cg0221c41110g8021020509g0210a0ag1040h401081g00581081140200h038i4q0e0kco8c11g1209ggg1403og2108844190k82114k80803840h"
@@ -132,6 +132,33 @@
         "output": {
             "num_detects": 1,
             "boards": "402g05agg1bi09a23g812o116s4u6u0im6mk032og0esdsfs9ge47k14g18a8c219e400h0c2k2u6qks4ukui011813kbseossdstsi00c03jg41aiqo8oqo05qajo09amai11ckuk8iu2mgjkbkag03csus9gu8no"
+        }
+    },
+    "test016": {
+        "description": "Hidden triples",
+        "board_input": "sgog4gfkcg03ik09tk050903fgg1d02g30dgsg2111ckcg0903o4sk214181g1050h09121203gk09c011c0gkg421hghk0k03092141o4ok8g8mg10921841141065014215403g1810h09099m4kdkcgd4i422g6",
+        "method": "hidden_triples",
+        "output": {
+            "num_detects": 1,
+            "boards": "sgog4g34cg03240914050903fgg1d02g30dgsg2111ckcg0903o4sk214181g1050h09121203gk09c011c0gkg421hghk0k03092141o4ok8g8mg10921841141065014215403g1810h09099m4kdkcgd4i422g6"
+        }
+    },
+    "test017": {
+        "description": "Hidden triples",
+        "board_input": "gaa2a241040hqaa811h8058gj003h88g41i8la6i72j081h8ia2o05c2g14i82082105114g210i04h041h2g80o81c01109050go0m003i00he2f208g182f004225209d2822104dgg14g05a2g00h1041a8a82a",
+        "method": "hidden_triples",
+        "output": {
+            "num_detects": 1,
+            "boards": "gaa2a241040hqaa811h8058gj003h88g41i8la6i72j081h8ia2o05c2g14i82082105114g210i04h041h2g80o81c01109050go0m003i00he2f208g1825004225209d28221045gg14g05a2g00h1041a8a82a"
+        }
+    },
+    "test018": {
+        "description": "Naked triples",
+        "board_input": "gaa2a241040hgaa811h8058g2003h88g41g8la6i72h081h8ga2o05c2g14i82082105114g210i04h041h2g80o81c01109050go06003i00he2f208g1825004221209d28221045gg14g0522g00h1041a0a80a",
+        "method": "naked_triples",
+        "output": {
+            "num_detects": 4,
+            "boards": "gaa2a241040hgaa011h8058g2003h88g41g8la6i72h081h8ga2g05c2g14i82082105114g210i04h041h2g80o81c01109050go06003i00he2f208g1825004221209d28221045gg14g0522g00h1041a0a80a"
         }
     }
 }
