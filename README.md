@@ -2,6 +2,24 @@
 
 This is a simple Sudoku solver implemented in C, capable of solving Sudoku puzzles using hidden/naked pairs, triples, and hidden singles algorithms.
 
+## Table of Contents
+- [Introduction](#introduction)
+- [Features](#features)
+- [How to Use](#how-to-use)
+- [Algorithm](#algorithm)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Introduction
+
+This Sudoku solver is designed to solve Sudoku puzzles using advanced techniques such as hidden/naked pairs, triples, and hidden singles algorithm. It is developed in C for efficiency and performance.
+
+## Features
+
+- Solves Sudoku puzzles using hidden/naked pairs, triples, and hidden singles.
+- Efficient C implementation for fast solving.
+- Easy-to-understand codebase.
+
 ## How to Use
 
 1. Clone the repository:
@@ -15,9 +33,6 @@ This is a simple Sudoku solver implemented in C, capable of solving Sudoku puzzl
 Compiling:
    ```bash
    make
-   ```
-Running:
-   ```bash
    ./sudoku <sudoku_string>
    ```
 ## Algorithms Used
