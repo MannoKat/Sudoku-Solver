@@ -11,10 +11,10 @@ This is a simple Sudoku solver implemented in C, capable of solving Sudoku puzzl
    cd Sudoku-Solver
 2. Compile the code:
 
-    ```bash
-    Copy code
-    make
-
-  ```bash
-    Copy code
-    ./sudoku <sudoku_string>
+   ```bash
+   Copy code
+   make
+/n
+   ```bash
+   Copy code
+   ./sudoku <sudoku_string>
