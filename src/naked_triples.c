@@ -83,9 +83,23 @@ void find_naked_triples(Cell **p_cells, NakedTriple *p_naked_triples, int *p_cou
                                         naked_triple_obj.p_cell1 = p_cells[j];
                                         naked_triple_obj.p_cell2 = p_cells[h];
                                         naked_triple_obj.p_cell3 = p_cells[g];
-                                        p_naked_triples[(*p_counter)++] = naked_triple_obj;
-                                        // Break the loop after finding a valid triple in the cells
-                                        break;
+                                        int duplicate = 0;
+                                    
+                                        for (int m = 0; m < *p_counter; ++m) {
+                                            if (naked_triple_obj.value1 == p_naked_triples[m].value1 &&
+                                                naked_triple_obj.value2 == p_naked_triples[m].value2 &&
+                                                naked_triple_obj.value3 == p_naked_triples[m].value3 &&        
+                                                naked_triple_obj.p_cell1 == p_naked_triples[m].p_cell1 &&
+                                                naked_triple_obj.p_cell2 == p_naked_triples[m].p_cell2 &&
+                                                naked_triple_obj.p_cell3 == p_naked_triples[m].p_cell3) {
+                                                duplicate = 1;
+                                                break;
+                                            }
+                                        }
+
+                                        if (!duplicate) {
+                                            p_naked_triples[(*p_counter)++] = naked_triple_obj;
+                                        }                                             
                                     }
                                 }
                             }
@@ -100,7 +114,7 @@ void find_naked_triples(Cell **p_cells, NakedTriple *p_naked_triples, int *p_cou
 int naked_triples(SudokuBoard *p_board) {
     NakedTriple naked_triples[BOARD_SIZE * BOARD_SIZE];
     int counter = 0;
-    int unique_counter = 0;  // Counter for unique naked triples
+
     // Iterate over rows, columns, and boxes
     for (int i = 0; i < BOARD_SIZE; ++i) {
         find_naked_triples(p_board->p_rows[i], naked_triples, &counter);
@@ -108,7 +122,7 @@ int naked_triples(SudokuBoard *p_board) {
         find_naked_triples(p_board->p_boxes[i], naked_triples, &counter);
     }
 
-    int unique_triples[BOARD_SIZE][BOARD_SIZE] = {0};
+
     // Iterate over identified naked triples
     for (int i = 0; i < counter; ++i) {
         Cell *naked_triple_cell1 = naked_triples[i].p_cell1;
@@ -117,14 +131,6 @@ int naked_triples(SudokuBoard *p_board) {
         int value1 = naked_triples[i].value1;
         int value2 = naked_triples[i].value2;
         int value3 = naked_triples[i].value3;
-        printf("Naked Triple: (%d, %d, %d) in cells (%d, %d) and (%d, %d) and (%d, %d)\n", value1, value2, value3,
-               naked_triple_cell1->row_index, naked_triple_cell1->col_index,
-               naked_triple_cell2->row_index, naked_triple_cell2->col_index,
-               naked_triple_cell3->row_index, naked_triple_cell3->col_index);
-        // Check if this naked triple has already been processed
-        if (unique_triples[naked_triple_cell1->row_index][naked_triple_cell1->col_index] == 1) {
-            continue;  // Skip if already processed
-        }
 
         // Unset candidates in other cells in the same row
         if (naked_triple_cell1->row_index == naked_triple_cell2->row_index &&
@@ -191,11 +197,7 @@ int naked_triples(SudokuBoard *p_board) {
                 }
             }  
         }
-
-
-        unique_triples[naked_triple_cell1->row_index][naked_triple_cell1->col_index] = 1;
-        unique_counter++;
     }
     
-    return (unique_counter);
+    return (counter);
 }

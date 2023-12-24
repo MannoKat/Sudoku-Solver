@@ -37,26 +37,40 @@ void find_naked_pairs(Cell **p_cells, NakedPair *p_naked_pairs, int *p_counter) 
     int naked_pairs_values[BOARD_SIZE];
     int num_pairs = find_naked_pairs_values(p_cells, naked_pairs_values);
 
-    for (int i = 0; i < num_pairs-1; ++i) {
+    for (int i = 0; i < num_pairs - 1; ++i) {
         for (int k = i + 1; k < num_pairs; ++k) {
-        
-            for (int j = 0; j < BOARD_SIZE-1; j++) {
-                for (int l = j+1; l < BOARD_SIZE; l++) {
+            NakedPair naked_pair_obj;
+            naked_pair_obj.value1 = naked_pairs_values[i];
+            naked_pair_obj.value2 = naked_pairs_values[k];
+
+            for (int j = 0; j < BOARD_SIZE - 1; j++) {
+                for (int l = j + 1; l < BOARD_SIZE; l++) {
                     // Check if naked cells
                     if (is_naked_pair(p_cells[j], p_cells[l], naked_pairs_values[i], naked_pairs_values[k])) {
                         if ((is_candidate(p_cells[j], naked_pairs_values[i]) &&
-                            is_candidate(p_cells[j], naked_pairs_values[k])) &&
+                             is_candidate(p_cells[j], naked_pairs_values[k])) &&
                             (is_candidate(p_cells[l], naked_pairs_values[i]) &&
-                            is_candidate(p_cells[l], naked_pairs_values[k]))) {
-
-                            NakedPair naked_pair_obj;
-                            naked_pair_obj.value1 = naked_pairs_values[i];
-                            naked_pair_obj.value2 = naked_pairs_values[k];
+                             is_candidate(p_cells[l], naked_pairs_values[k]))) {
                             naked_pair_obj.p_cell1 = p_cells[j];
                             naked_pair_obj.p_cell2 = p_cells[l];
-                            p_naked_pairs[(*p_counter)++] = naked_pair_obj;
+
+                            // Check if this naked pair has already been processed
+                            int duplicate = 0;
+                            for (int m = 0; m < *p_counter; ++m) {
+                                if (naked_pair_obj.value1 == p_naked_pairs[m].value1 &&
+                                    naked_pair_obj.value2 == p_naked_pairs[m].value2 &&
+                                    naked_pair_obj.p_cell1 == p_naked_pairs[m].p_cell1 &&
+                                    naked_pair_obj.p_cell2 == p_naked_pairs[m].p_cell2) {
+                                    duplicate = 1;
+                                    break;
+                                }
+                            }
+
+                            if (!duplicate) {
+                                p_naked_pairs[(*p_counter)++] = naked_pair_obj;
+                            }
                         }
-                    }    
+                    }
                 }
             }
         }
@@ -66,7 +80,6 @@ void find_naked_pairs(Cell **p_cells, NakedPair *p_naked_pairs, int *p_counter) 
 int naked_pairs(SudokuBoard *p_board) {
     NakedPair naked_pairs[BOARD_SIZE * BOARD_SIZE];
     int counter = 0;
-    int unique_counter = 0;  // Counter for unique naked pairs
     // Iterate over rows, columns, and boxes
     for (int i = 0; i < BOARD_SIZE; ++i) {
         find_naked_pairs(p_board->p_rows[i], naked_pairs, &counter);
@@ -74,18 +87,13 @@ int naked_pairs(SudokuBoard *p_board) {
         find_naked_pairs(p_board->p_boxes[i], naked_pairs, &counter);
     }
 
-    int unique_pairs[BOARD_SIZE][BOARD_SIZE] = {0};
+
     // Iterate over identified naked pairs
     for (int i = 0; i < counter; ++i) {
         Cell *naked_pair_cell1 = naked_pairs[i].p_cell1;
         Cell *naked_pair_cell2 = naked_pairs[i].p_cell2;
         int value1 = naked_pairs[i].value1;
         int value2 = naked_pairs[i].value2;
-
-        // Check if this naked pair has already been processed
-        if (unique_pairs[naked_pair_cell1->row_index][naked_pair_cell1->col_index] == 1) {
-            continue;  // Skip if already processed
-        }
 
         // Unset candidates in other cells in the same row
         if (naked_pair_cell1->row_index == naked_pair_cell2->row_index) {
@@ -141,11 +149,7 @@ int naked_pairs(SudokuBoard *p_board) {
                 }
             }  
         }
-
-
-        unique_pairs[naked_pair_cell1->row_index][naked_pair_cell1->col_index] = 1;
-        unique_counter++;
     }
     
-    return (unique_counter);
+    return (counter);
 }
