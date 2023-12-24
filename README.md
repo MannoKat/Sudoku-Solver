@@ -8,7 +8,6 @@ This is a simple Sudoku solver implemented in C, capable of solving Sudoku puzzl
 - [How to Use](#how-to-use)
 - [Algorithm](#algorithm)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 
@@ -35,7 +34,7 @@ Compiling:
    make
    ./sudoku <sudoku_string>
    ```
-## Algorithms Used
+## Algorithms
 The solver employs the following algorithms to solve Sudoku puzzles:
 
 Hidden Triples: Identifies pairs of candidate numbers in a row, column, or block where the numbers are confined to three cells.
