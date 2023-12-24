@@ -39,10 +39,6 @@ void find_naked_pairs(Cell **p_cells, NakedPair *p_naked_pairs, int *p_counter) 
 
     for (int i = 0; i < num_pairs - 1; ++i) {
         for (int k = i + 1; k < num_pairs; ++k) {
-            NakedPair naked_pair_obj;
-            naked_pair_obj.value1 = naked_pairs_values[i];
-            naked_pair_obj.value2 = naked_pairs_values[k];
-
             for (int j = 0; j < BOARD_SIZE - 1; j++) {
                 for (int l = j + 1; l < BOARD_SIZE; l++) {
                     // Check if naked cells
@@ -51,6 +47,9 @@ void find_naked_pairs(Cell **p_cells, NakedPair *p_naked_pairs, int *p_counter) 
                              is_candidate(p_cells[j], naked_pairs_values[k])) &&
                             (is_candidate(p_cells[l], naked_pairs_values[i]) &&
                              is_candidate(p_cells[l], naked_pairs_values[k]))) {
+                            NakedPair naked_pair_obj;
+                            naked_pair_obj.value1 = naked_pairs_values[i];
+                            naked_pair_obj.value2 = naked_pairs_values[k];
                             naked_pair_obj.p_cell1 = p_cells[j];
                             naked_pair_obj.p_cell2 = p_cells[l];
 
