@@ -24,6 +24,7 @@ int find_naked_triples_values(Cell **p_cells, int *naked_triples_values) {
 }
 
 
+
 bool is_naked_triple(Cell *cell1, Cell *cell2, Cell *cell3, int value1, int value2, int value3) {
 
     if ((cell1->num_candidates <= 3) && (cell2->num_candidates <= 3) && (cell3->num_candidates <= 3) &&
@@ -57,48 +58,36 @@ void find_naked_triples(Cell **p_cells, NakedTriple *p_naked_triples, int *p_cou
     for (int i = 0; i < num_triples - 2; ++i) {
         for (int k = i + 1; k < num_triples - 1; ++k) {
             for (int l = k + 1; l < num_triples; ++l) {
-                // Check if 1 of the 3 values is in at least 2 of the 3 cells
-                int count = 0;
-                count += are_values_in_same_cells(p_cells, naked_triples_values[i], naked_triples_values[k]);
-                count += are_values_in_same_cells(p_cells, naked_triples_values[i], naked_triples_values[l]);
-                count += are_values_in_same_cells(p_cells, naked_triples_values[k], naked_triples_values[l]);
-
-                // Check if each value appears in at least two distinct cells
-                if (count >= 2) {
-                    for (int j = 0; j < BOARD_SIZE - 2; ++j) {
-                        for (int h = j + 1; h < BOARD_SIZE - 1; ++h) {
-                            for (int g = h + 1; g < BOARD_SIZE; ++g) {
-                                // Check if values are candidates in at least 2 per 3 of the cells
-                                if (is_naked_triple(p_cells[j],p_cells[h], p_cells[g], naked_triples_values[i], naked_triples_values[k], naked_triples_values[l])){
-                                    if ((is_candidate(p_cells[j], naked_triples_values[i]) || is_candidate(p_cells[j], naked_triples_values[k]) || is_candidate(p_cells[j], naked_triples_values[l])) &&
-                                        (is_candidate(p_cells[h], naked_triples_values[i]) || is_candidate(p_cells[h], naked_triples_values[k]) || is_candidate(p_cells[h], naked_triples_values[l])) &&
-                                        (is_candidate(p_cells[g], naked_triples_values[i]) || is_candidate(p_cells[g], naked_triples_values[k]) || is_candidate(p_cells[g], naked_triples_values[l]))) {
-                                        NakedTriple naked_triple_obj;
-                                        naked_triple_obj.value1 = naked_triples_values[i];
-                                        naked_triple_obj.value2 = naked_triples_values[k];
-                                        naked_triple_obj.value3 = naked_triples_values[l];
-                                        naked_triple_obj.p_cell1 = p_cells[j];
-                                        naked_triple_obj.p_cell2 = p_cells[h];
-                                        naked_triple_obj.p_cell3 = p_cells[g];
-                                        int duplicate = 0;
-                                    
-                                        for (int m = 0; m < *p_counter; ++m) {
-                                            if (naked_triple_obj.value1 == p_naked_triples[m].value1 &&
-                                                naked_triple_obj.value2 == p_naked_triples[m].value2 &&
-                                                naked_triple_obj.value3 == p_naked_triples[m].value3 &&        
-                                                naked_triple_obj.p_cell1 == p_naked_triples[m].p_cell1 &&
-                                                naked_triple_obj.p_cell2 == p_naked_triples[m].p_cell2 &&
-                                                naked_triple_obj.p_cell3 == p_naked_triples[m].p_cell3) {
-                                                duplicate = 1;
-                                                break;
-                                            }
-                                        }
-
-                                        if (!duplicate) {
-                                            p_naked_triples[(*p_counter)++] = naked_triple_obj;
-                                        }                                             
+                for (int j = 0; j < BOARD_SIZE - 2; ++j) {
+                    for (int h = j + 1; h < BOARD_SIZE - 1; ++h) {
+                        for (int g = h + 1; g < BOARD_SIZE; ++g) {
+                            // Check if values are candidates in at least 2 per 3 of the cells
+                            if (is_naked_triple(p_cells[j], p_cells[h], p_cells[g], naked_triples_values[i], naked_triples_values[k], naked_triples_values[l])){
+                                NakedTriple naked_triple_obj;
+                                naked_triple_obj.value1 = naked_triples_values[i];
+                                naked_triple_obj.value2 = naked_triples_values[k];
+                                naked_triple_obj.value3 = naked_triples_values[l];
+                                naked_triple_obj.p_cell1 = p_cells[j];
+                                naked_triple_obj.p_cell2 = p_cells[h];
+                                naked_triple_obj.p_cell3 = p_cells[g];
+                                
+                                // Check that if the naked triples is duplicated
+                                int duplicate = 0;
+                                for (int m = 0; m < *p_counter; ++m) {
+                                    if (naked_triple_obj.value1 == p_naked_triples[m].value1 &&
+                                        naked_triple_obj.value2 == p_naked_triples[m].value2 &&
+                                        naked_triple_obj.value3 == p_naked_triples[m].value3 &&        
+                                        naked_triple_obj.p_cell1 == p_naked_triples[m].p_cell1 &&
+                                        naked_triple_obj.p_cell2 == p_naked_triples[m].p_cell2 &&
+                                        naked_triple_obj.p_cell3 == p_naked_triples[m].p_cell3) {
+                                        duplicate = 1;
+                                        break;
                                     }
                                 }
+
+                                if (!duplicate) {
+                                    p_naked_triples[(*p_counter)++] = naked_triple_obj;
+                                }                                             
                             }
                         }
                     }
