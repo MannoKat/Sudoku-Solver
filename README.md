@@ -6,7 +6,7 @@ This is a simple Sudoku solver implemented in C, capable of solving Sudoku puzzl
 - [Introduction](#introduction)
 - [Features](#features)
 - [How to Use](#how-to-use)
-- [Algorithm](#algorithm)
+- [Algorithms](#algorithms)
 - [Contributing](#contributing)
 
 ## Introduction
