@@ -24,9 +24,6 @@ int find_naked_triples_values(Cell **p_cells, int *naked_triples_values) {
 }
 
 
-// Phần này chưa sửa gì cả :((
-// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 bool is_naked_triple(Cell *cell1, Cell *cell2, Cell *cell3, int value1, int value2, int value3) {
 
     if ((cell1->num_candidates <= 3) && (cell2->num_candidates <= 3) && (cell3->num_candidates <= 3) &&
