@@ -1,7 +1,7 @@
 # Sudoku Solver in C
 
 This is a simple Sudoku solver implemented in C, capable of solving Sudoku puzzles using hidden/naked pairs, triples, and hidden singles algorithms.
-
+This is also my program did by me and my instructor
 ## Table of Contents
 - [Introduction](#introduction)
 - [Features](#features)
