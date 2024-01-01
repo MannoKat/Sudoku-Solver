@@ -2,7 +2,7 @@
 
 This is a simple Sudoku solver implemented in C, capable of solving Sudoku puzzles using hidden/naked pairs, triples, and hidden singles algorithms.
 
-This is also my program did by me and my instructor in VGU!!!!
+This is also the program made by me and my instructor in VGU!!!!
 ## Table of Contents
 - [Introduction](#introduction)
 - [Features](#features)
